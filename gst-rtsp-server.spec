@@ -10,6 +10,7 @@ Group:		System/Servers
 Source0:  	%{name}-%{git}.tar.gz	
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libgstreamer-plugins-base-devel
+BuildRequires:	gettext-devel
 
 %description
 RTSP server based on GStreamer.
