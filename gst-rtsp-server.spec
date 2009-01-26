@@ -1,37 +1,85 @@
-%define git 20090103
+%define git 20090124
+%define api 0.10
+%define major 0
+%define libname %mklibname gstrtspserver %api %major
+%define develname %mklibname -d gstrtspserver
 
-Summary:	RTSP server based on GStreamer
+Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	0.%{git}
-Release:	%mkrel 0.1
+Version:	0.10.0.1
+Release:	%mkrel 0.%git.1
 License:	LGPLv2+
-URL:		http://git.collabora.co.uk/?p=gst-rtsp-server.git;a=summary	
-Group:		System/Servers
-Source0:  	%{name}-%{git}.tar.gz	
+URL:		http://git.collabora.co.uk/?p=gst-rtsp-server.git;a=summary
+Group:		System/Libraries
+Source0:  	%{name}-%{git}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	libgstreamer-plugins-base-devel
+BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.20
 BuildRequires:	gettext-devel
+BuildRequires:	gstreamer0.10-python-devel
+BuildRequires:	vala-devel
 
 %description
 RTSP server based on GStreamer.
 
+%package -n %libname
+Summary:	RTSP server library for the GStreamer framework
+Group:		System/Libraries
+
+%description -n %libname
+RTSP server based on GStreamer.
+
+%package -n %develname
+Summary:	RTSP server library for the GStreamer framework
+Group:		Development/C
+Requires:	%libname = %version-%release
+Provides:	%name-devel = %version
+Provides:	libgstrtspserver-devel = %version-%release
+
+%description -n %develname
+RTSP server based on GStreamer.
+
+%package -n python-rtspserver
+Group: Development/Python
+Summary: Python bindings for the RTSP-Server
+Requires: gstreamer0.10-python
+
+%description -n python-rtspserver
+This is the Python binding for GStreamer's RTSP Server.
+
+
 %prep
 %setup -q -n %{name} 
+NOCONFIGURE=1 ./autogen.sh
 
 %build
-./autogen.sh
-%configure2_5x
+%configure2_5x --disable-static --enable-maintainer-mode --enable-gtk-doc
 %make
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+%makeinstall_std
 
 
 %clean
 rm -rf %{buildroot}
 
 
-%files
+%files -n %libname
 %defattr(-,root,root)
-%{_bindir}/%{name}
+%doc README AUTHORS
+%_libdir/libgstrtspserver-%api.so.%{major}*
+
+%files -n %develname
+%defattr(-,root,root)
+%_libdir/libgstrtspserver-%api.so
+%_libdir/libgstrtspserver-%api.la
+%_libdir/pkgconfig/%name-%api.pc
+%_includedir/gstreamer-%api/gst/rtsp-server
+%_datadir/vala/vapi/%name-%api.deps
+%_datadir/vala/vapi/%name-%api.vapi
+
+%files -n python-rtspserver
+%defattr(-,root,root)
+%py_platsitedir/gst-%api/gst/rtspserver.la
+%py_platsitedir/gst-%api/gst/rtspserver.so
+%_datadir/gst-rtsp
