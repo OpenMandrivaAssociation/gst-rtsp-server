@@ -3,15 +3,16 @@
 %define major 0
 %define libname %mklibname gstrtspserver %api %major
 %define develname %mklibname -d gstrtspserver
+%define oname gst-rtsp
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	0.10.0.1
-Release:	%mkrel 0.%git.1
+Version:	0.10.1.0
+Release:	%mkrel 1
 License:	LGPLv2+
-URL:		http://git.collabora.co.uk/?p=gst-rtsp-server.git;a=summary
+URL:		http://people.freedesktop.org/~wtay/
 Group:		System/Libraries
-Source0:  	%{name}-%{git}.tar.bz2
+Source0:  	%{oname}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.20
 BuildRequires:	gettext-devel
@@ -48,8 +49,7 @@ This is the Python binding for GStreamer's RTSP Server.
 
 
 %prep
-%setup -q -n %{name} 
-NOCONFIGURE=1 ./autogen.sh
+%setup -q -n %oname-%version
 
 %build
 %configure2_5x --disable-static --enable-maintainer-mode --enable-gtk-doc
