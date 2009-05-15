@@ -17,6 +17,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.20
 BuildRequires:	gettext-devel
 BuildRequires:	gstreamer0.10-python-devel
+BuildRequires:	python-devel
 BuildRequires:	vala-devel
 
 %description
