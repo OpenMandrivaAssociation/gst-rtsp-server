@@ -7,8 +7,8 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	0.10.2
-Release:	%mkrel 2
+Version:	0.10.3
+Release:	%mkrel 1
 License:	LGPLv2+
 URL:		http://people.freedesktop.org/~wtay/
 Group:		System/Libraries
@@ -59,9 +59,6 @@ This is the Python binding for GStreamer's RTSP Server.
 %install
 rm -rf %{buildroot}
 %makeinstall_std
-
-#gw fix pkgconfig file
-sed -i "s/0.10.1/%version/" %buildroot%_libdir/pkgconfig/*.pc
 
 %clean
 rm -rf %{buildroot}
