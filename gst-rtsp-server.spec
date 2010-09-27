@@ -7,12 +7,13 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	0.10.5
+Version:	0.10.6
 Release:	%mkrel 1
 License:	LGPLv2+
 URL:		http://people.freedesktop.org/~wtay/
 Group:		System/Libraries
 Source0:  	%{oname}-%{version}.tar.bz2
+Patch0: gst-rtsp-0.10.6-new-vala.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.20
 BuildRequires:	gettext-devel
@@ -51,6 +52,8 @@ This is the Python binding for GStreamer's RTSP Server.
 
 %prep
 %setup -q -n %oname-%version
+%apply_patches
+autoconf
 
 %build
 %configure2_5x --disable-static --enable-maintainer-mode --enable-gtk-doc
@@ -75,8 +78,8 @@ rm -rf %{buildroot}
 %_libdir/libgstrtspserver-%api.la
 %_libdir/pkgconfig/%name-%api.pc
 %_includedir/gstreamer-%api/gst/rtsp-server
-%_datadir/vala/vapi/%name-%api.deps
-%_datadir/vala/vapi/%name-%api.vapi
+%_datadir/vala-0.10/vapi/%name-%api.deps
+%_datadir/vala-0.10/vapi/%name-%api.vapi
 
 %files -n python-rtspserver
 %defattr(-,root,root)
