@@ -7,20 +7,21 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	0.10.6
-Release:	%mkrel 2
+Version:	0.10.7
+Release:	%mkrel 1
 License:	LGPLv2+
 URL:		http://people.freedesktop.org/~wtay/
 Group:		System/Libraries
 Source0:  	%{oname}-%{version}.tar.bz2
-Patch0: gst-rtsp-0.10.6-new-vala.patch
 Patch1: gst-rtsp-0.10.6-py-link.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.20
+#gw: must be patched for the typo in rtsp gir file
+BuildRequires:	libgstreamer-plugins-base-devel >= 0.10.29
 BuildRequires:	gettext-devel
 BuildRequires:	gstreamer0.10-python-devel
+BuildRequires:	gobject-introspection-devel
 BuildRequires:	python-devel
-BuildRequires:	vala-devel
+BuildRequires:	vala-devel >= 0.10
 
 %description
 RTSP server based on GStreamer.
@@ -54,10 +55,12 @@ This is the Python binding for GStreamer's RTSP Server.
 %prep
 %setup -q -n %oname-%version
 %apply_patches
-
-%build
+rm -f  common/m4/introspection.m4
+aclocal -I common/m4
 autoreconf -fi
-%configure2_5x --disable-static --enable-maintainer-mode --enable-gtk-doc
+%build
+
+%configure2_5x --disable-static --enable-maintainer-mode --enable-gtk-doc 
 %make
 
 %install
@@ -72,6 +75,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc README AUTHORS
 %_libdir/libgstrtspserver-%api.so.%{major}*
+%_libdir/girepository-1.0/GstRtspServer-%api.typelib
 
 %files -n %develname
 %defattr(-,root,root)
@@ -79,8 +83,9 @@ rm -rf %{buildroot}
 %_libdir/libgstrtspserver-%api.la
 %_libdir/pkgconfig/%name-%api.pc
 %_includedir/gstreamer-%api/gst/rtsp-server
-%_datadir/vala-0.10/vapi/%name-%api.deps
-%_datadir/vala-0.10/vapi/%name-%api.vapi
+%_datadir/vala/vapi/%name-%api.deps
+%_datadir/vala/vapi/%name-%api.vapi
+%_datadir/gir-1.0/GstRtspServer-%api.gir
 
 %files -n python-rtspserver
 %defattr(-,root,root)
