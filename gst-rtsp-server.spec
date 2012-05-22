@@ -12,11 +12,11 @@ License:	LGPLv2+
 Group:		System/Libraries
 URL:		http://people.freedesktop.org/~wtay/
 Source0:  	http://people.freedesktop.org/~wtay/%{oname}-%{version}.tar.bz2
+Patch0:		gst-rtsp-pygobject.patch
 Patch1:		gst-rtsp-0.10.6-py-link.patch
 
-#gw: must be patched for the typo in rtsp gir file
-BuildRequires:	gettext-devel
 BuildRequires:	gtk-doc
+BuildRequires:	gettext-devel
 BuildRequires:	vala-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gst-python-0.10)
@@ -55,14 +55,12 @@ This is the Python binding for GStreamer's RTSP Server.
 %prep
 %setup -qn %oname-%{version}
 %apply_patches
-
-rm -f  common/m4/introspection.m4
-aclocal -I common/m4
 autoreconf -fi
 
 %build
 %configure2_5x \
 	--disable-static \
+	--with-pic \
 	--enable-maintainer-mode \
 	--enable-gtk-doc 
 %make
@@ -79,9 +77,10 @@ autoreconf -fi
 %{_libdir}/libgstrtspserver-%{api}.so
 %{_libdir}/pkgconfig/%{name}-%{api}.pc
 %{_includedir}/gstreamer-%{api}/gst/rtsp-server
+%{_datadir}/gir-1.0/GstRtspServer-%{api}.gir
+%{_datadir}/gtk-doc/html/gst-rtsp-server-0.10
 %{_datadir}/vala/vapi/%{name}-%{api}.deps
 %{_datadir}/vala/vapi/%{name}-%{api}.vapi
-%{_datadir}/gir-1.0/GstRtspServer-%{api}.gir
 
 %files -n python-rtspserver
 %{py_platsitedir}/gst-%{api}/gst/rtspserver.so
