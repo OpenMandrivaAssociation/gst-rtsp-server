@@ -16,6 +16,7 @@ Patch1:		gst-rtsp-0.10.6-py-link.patch
 
 #gw: must be patched for the typo in rtsp gir file
 BuildRequires:	gettext-devel
+BuildRequires:	gtk-doc
 BuildRequires:	vala-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gst-python-0.10)
