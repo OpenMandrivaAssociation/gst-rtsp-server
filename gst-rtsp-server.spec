@@ -21,6 +21,7 @@ BuildRequires:	vala-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gst-python-0.10)
 BuildRequires:	pkgconfig(gstreamer-plugins-base-0.10)
+BuildRequires:	pkgconfig(pygobject-2.0)
 BuildRequires:	pkgconfig(python)
 
 %description
@@ -36,11 +37,11 @@ RTSP server based on GStreamer.
 %package -n %develname
 Summary:	RTSP server library for the GStreamer framework
 Group:		Development/C
-Requires:	%{libname} = %{version}-%release
+Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}
-Provides:	libgstrtspserver-devel = %{version}-%release
+Provides:	libgstrtspserver-devel = %{version}-%{release}
 
-%description -n %develname
+%description -n %{develname}
 RTSP server based on GStreamer.
 
 %package -n python-rtspserver
@@ -74,7 +75,7 @@ autoreconf -fi
 %{_libdir}/libgstrtspserver-%{api}.so.%{major}*
 %{_libdir}/girepository-1.0/GstRtspServer-%{api}.typelib
 
-%files -n %develname
+%files -n %{develname}
 %{_libdir}/libgstrtspserver-%{api}.so
 %{_libdir}/pkgconfig/%{name}-%{api}.pc
 %{_includedir}/gstreamer-%{api}/gst/rtsp-server
