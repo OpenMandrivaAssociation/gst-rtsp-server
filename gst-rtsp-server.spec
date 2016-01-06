@@ -5,12 +5,12 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	1.4.5
+Version:	1.6.2
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
-URL:		http://people.freedesktop.org/~wtay/
-Source0:  	http://people.freedesktop.org/~wtay/%{name}-%{version}.tar.xz
+URL:		http://gstreamer.freedesktop.org/
+Source0:  	http://gstreamer.freedesktop.org/src/%{name}/%{name}-%{version}.tar.xz
 
 BuildRequires:	gtk-doc
 BuildRequires:	gettext-devel
