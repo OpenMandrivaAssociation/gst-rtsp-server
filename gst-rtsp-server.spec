@@ -5,7 +5,7 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gst-rtsp-server
-Version:	1.10.2
+Version:	1.13.1
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
@@ -59,6 +59,7 @@ RTSP server based on GStreamer.
 %doc README AUTHORS
 %{_libdir}/libgstrtspserver-%{api}.so.%{major}*
 %{_libdir}/girepository-1.0/GstRtspServer-%{api}.typelib
+%{_libdir}/gstreamer-1.0/libgstrtspclientsink.so
 
 %files -n %{develname}
 %{_libdir}/libgstrtspserver-%{api}.so
