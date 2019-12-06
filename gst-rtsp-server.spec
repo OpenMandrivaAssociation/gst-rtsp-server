@@ -1,25 +1,26 @@
-%define api 1.0
-%define major 0
+%define api	1.0
+%define major	0
+%define oname	gst-rtsp-server
+
 %define libname %mklibname gstrtspserver %{api} %{major}
+%define girname %mklibname gstrtspserver-gir %{api}
 %define develname %mklibname -d gstrtspserver
 
 Summary:	RTSP server library for the GStreamer framework
-Name:		gst-rtsp-server
-Version:	1.13.1
+Name:		gstreamer1.0-rtsp-server
+Version:	1.16.2
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
-URL:		http://gstreamer.freedesktop.org/
-Source0:  	http://gstreamer.freedesktop.org/src/%{name}/%{name}-%{version}.tar.xz
-
-BuildRequires:	gtk-doc
+URL:		https://gstreamer.freedesktop.org/
+Source0:  	https://gstreamer.freedesktop.org/src/%{oname}/%{oname}-%{version}.tar.xz
 BuildRequires:	gettext-devel
-BuildRequires:	vala-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
-BuildRequires:	python-gstreamer1.0
 BuildRequires:	pkgconfig(gstreamer-plugins-base-1.0)
-BuildRequires:	pkgconfig(pygobject-2.0)
-BuildRequires:	pkgconfig(python)
+
+%ifnarch %{riscv}
+BuildRequires:	pkgconfig(valgrind)
+%endif
 
 %description
 RTSP server based on GStreamer.
@@ -29,42 +30,63 @@ Summary:	RTSP server library for the GStreamer framework
 Group:		System/Libraries
 
 %description -n %{libname}
-RTSP server based on GStreamer.
+RTSP server based on GStreamer1.0.
 
-%package -n %develname
+%package -n %{develname}
 Summary:	RTSP server library for the GStreamer framework
 Group:		Development/C
 Requires:	%{libname} = %{version}-%{release}
+Requires:	%{girname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}
 Provides:	libgstrtspserver-devel = %{version}-%{release}
 
 %description -n %{develname}
-RTSP server based on GStreamer.
+RTSP server based on GStreamer1.0.
+
+%package -n %{girname}
+Summary:	GObject Introspection interface description for %{name}
+Group:		System/Libraries
+Conflicts:	%{_lib}gstrtspserver1.0_0 < 1.8.0
+
+%description -n %{girname}
+GObject Introspection interface description for %{name}.
+
+%package -n gstreamer%{api}-rtspclientsink
+Summary:	rtspclientsink plugin for gstreamer%{api}
+Group:		Networking/Other
+
+%description -n gstreamer%{api}-rtspclientsink
+rtspclientsink is an element that uses RECORD to send streams to an
+RTSP server.
 
 %prep
-%setup -q
-%apply_patches
+%setup -q -n %{oname}-%{version}
 
 %build
-%configure \
-	--with-pic \
-	--enable-maintainer-mode \
-	--enable-gtk-doc 
-%make
+%configure2_5x \
+	--with-package-name='OpenMandriva %{name} package' \
+	--with-package-origin='http://www.openmandriva.org/' \
+	--disable-static
+%make_build
 
 %install
-%makeinstall_std
+%make_install
+
+# we don't want these
+find %{buildroot} -name '*.la' -delete
+
+%files -n gstreamer%{api}-rtspclientsink
+%{_libdir}/gstreamer-1.0/libgstrtspclientsink.so
 
 %files -n %{libname}
-%doc README AUTHORS
-%{_libdir}/libgstrtspserver-%{api}.so.%{major}*
+%doc README AUTHORS docs/libs/html
+%{_libdir}/libgstrtspserver-%{api}.so.%{major}{,.*}
+
+%files -n %{girname}
 %{_libdir}/girepository-1.0/GstRtspServer-%{api}.typelib
-%{_libdir}/gstreamer-1.0/libgstrtspclientsink.so
 
 %files -n %{develname}
 %{_libdir}/libgstrtspserver-%{api}.so
 %{_libdir}/pkgconfig/gstreamer-rtsp-server-%{api}.pc
 %{_includedir}/gstreamer-%{api}/gst/rtsp-server
 %{_datadir}/gir-1.0/GstRtspServer-%{api}.gir
-%{_datadir}/gtk-doc/html/gst-rtsp-server-%{api}
-
