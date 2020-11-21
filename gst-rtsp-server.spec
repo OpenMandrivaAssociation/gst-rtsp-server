@@ -8,12 +8,13 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gstreamer1.0-rtsp-server
-Version:	1.16.2
+Version:	1.18.1
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
 URL:		https://gstreamer.freedesktop.org/
 Source0:  	https://gstreamer.freedesktop.org/src/%{oname}/%{oname}-%{version}.tar.xz
+BuildRequires:	meson
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gstreamer-plugins-base-1.0)
@@ -63,14 +64,13 @@ RTSP server.
 %setup -q -n %{oname}-%{version}
 
 %build
-%configure2_5x \
-	--with-package-name='OpenMandriva %{name} package' \
-	--with-package-origin='http://www.openmandriva.org/' \
-	--disable-static
-%make_build
+%meson \
+	-Dwith-package-name='OpenMandriva %{name} %{version}-%{release}' \
+	--buildtype=release
+%meson_build
 
 %install
-%make_install
+%meson_install
 
 # we don't want these
 find %{buildroot} -name '*.la' -delete
