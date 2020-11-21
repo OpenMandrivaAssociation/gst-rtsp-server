@@ -16,6 +16,7 @@ URL:		https://gstreamer.freedesktop.org/
 Source0:  	https://gstreamer.freedesktop.org/src/%{oname}/%{oname}-%{version}.tar.xz
 BuildRequires:	meson
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(libcgroup)
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gstreamer-plugins-base-1.0)
 BuildRequires:	pkgconfig(gstreamer-plugins-bad-1.0)
@@ -67,6 +68,7 @@ RTSP server.
 %build
 %meson \
 	-Dwith-package-name='OpenMandriva %{name} %{version}-%{release}' \
+	-Ddoc=disabled \
 	--buildtype=release
 %meson_build
 
