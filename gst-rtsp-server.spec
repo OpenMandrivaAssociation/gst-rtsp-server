@@ -82,7 +82,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-1.0/libgstrtspclientsink.so
 
 %files -n %{libname}
-%doc README AUTHORS docs/libs/html
+%doc README AUTHORS
 %{_libdir}/libgstrtspserver-%{api}.so.%{major}{,.*}
 
 %files -n %{girname}
