@@ -18,6 +18,7 @@ BuildRequires:	meson
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gstreamer-plugins-base-1.0)
+BuildRequires:	pkgconfig(gstreamer-plugins-bad-1.0)
 
 %ifnarch %{riscv}
 BuildRequires:	pkgconfig(valgrind)
