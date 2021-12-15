@@ -67,7 +67,6 @@ RTSP server.
 
 %build
 %meson \
-	-Dwith-package-name='OpenMandriva %{name} %{version}-%{release}' \
 	-Ddoc=disabled \
 	--buildtype=release
 %meson_build
