@@ -8,7 +8,7 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gstreamer1.0-rtsp-server
-Version:	1.24.11
+Version:	1.24.12
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
