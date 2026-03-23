@@ -8,7 +8,7 @@
 
 Summary:	RTSP server library for the GStreamer framework
 Name:		gstreamer1.0-rtsp-server
-Version:	1.26.10
+Version:	1.28.1
 Release:	1
 License:	LGPLv2+
 Group:		System/Libraries
@@ -81,7 +81,7 @@ find %{buildroot} -name '*.la' -delete
 %{_libdir}/gstreamer-1.0/libgstrtspclientsink.so
 
 %files -n %{libname}
-%doc README AUTHORS
+%doc README
 %{_libdir}/libgstrtspserver-%{api}.so.%{major}{,.*}
 
 %files -n %{girname}
